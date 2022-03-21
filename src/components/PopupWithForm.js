@@ -10,9 +10,17 @@ export default function PopupWithForm({
   loadingButtonText
 
 }) {
+
+  function handleClickOverlay(e) {
+    e.stopPropagation();
+  }
+
   return (
-    <div id={`popup-${name}`} className={`popup ${isOpen && "popup_opened"}`}>
-      <div className="popup__container">
+    <div id={`popup-${name}`} className={`popup ${isOpen && "popup_opened"}`} onClick={onClose} >
+      <div 
+      className="popup__container" 
+      onClick={handleClickOverlay}
+      >
         <h2 className="popup__title">{title}</h2>
         <form
           className="popup__form"

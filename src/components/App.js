@@ -14,6 +14,9 @@ import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip.js";
+import * as auth from "../utils/auth";
+import success from "../images/success.svg";
+import unSuccess from "../images/unSuccess.svg";
 
 export default function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -28,8 +31,11 @@ export default function App() {
   const [card, setCard] = useState({});
   const [isLoading, SetIsLoading] = useState(false);
 
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false)
-  const [message, setMessage] = useState({ imgPath: '', text: '' })
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [message, setMessage] = useState({ imgPath: '', text: '' });
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [email, setEmail] = useState('');
+  const history = useHistory();
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -151,15 +157,67 @@ export default function App() {
     setIsInfoTooltipOpen(false)
   }
 
+  useEffect(() => {
+    tokenCheck()
+  }, [])
+
+  function tokenCheck() {
+    const jwt = localStorage.getItem('jwt')
+
+    if(jwt) {
+      auth.getContent(jwt)
+        .then((res) => {
+          if(res) {
+            setLoggedIn(true)
+            setEmail(res.data.email)
+            history.push('/')
+          }
+        })
+        .catch((err) => console.log(err))
+    }
+  }
+
+  function handleRegistration(password, email) {
+    auth.register(password, email)
+      .then((result) => {
+        setEmail(result.data.email)
+        setMessage({ imgPath: success, text: 'Вы успешно зарегистрировались!' })
+      })
+      .catch(() => setMessage({ imgPath: unSuccess, text: 'Что-то пошло не так! Попробуйте ещё раз.' }))
+      .finally(() => setIsInfoTooltipOpen(true))
+  }
+
+  function handleLogin(password, email) {
+    auth.login(password, email)
+      .then((token) => {
+        auth.getContent(token)
+          .then((res) => {
+            setEmail(res.data.email)
+            setLoggedIn(true)
+            history.push('/')
+          })
+      })
+      .catch((err) => console.log(err))
+  }
+
+  function onSignOut() {
+    localStorage.removeItem('jwt')
+    setLoggedIn(false)
+  }
+
   return (
     <div className="page">
       <div className="page__container">
         <CurrentUserContext.Provider value={currentUser}>
-          <Header />
+          <Header 
+          loggedIn={loggedIn}
+          email={email}
+          onSignOut={onSignOut}/>
           <Switch>
             <ProtectedRoute
               exact
               path="/"
+              loggedIn={loggedIn}
               component={Main}
               onEditAvatar={handleEditAvatarClick}
               onEditInfo={handleEditProfileClick}
@@ -171,10 +229,17 @@ export default function App() {
               isLoading={isLoading}
             />
             <Route path="/sign-in">
-              <Register />
+              <Register 
+              isOpen={isEditProfilePopupOpen}
+              onRegister={handleRegistration}
+              isInfoTooltipOpen={isInfoTooltipOpen}
+              />
             </Route>
             <Route path="/sign-up">
-              <Login />
+              <Login 
+              isOpen={isEditProfilePopupOpen}
+              onAuth={handleLogin}
+              />
             </Route>
           </Switch>
           <Footer />

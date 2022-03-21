@@ -1,7 +1,7 @@
 export default function InfoTooltip({ isOpen, onClose, title, imgPath }) {
     return (
       <div className={`popup ${isOpen ? 'popup_opened' : ''}`}>
-        <div className="popup__container popup__overlay">
+        <div className="popup__container">
   
           <div className='popup__wrapper'>
             <img src={imgPath} alt={imgPath} className='popup__tooltip' />

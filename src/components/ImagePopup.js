@@ -1,7 +1,12 @@
 export default function ImagePopup({ card, onClose, isOpen }) {
+
+  function handleClickOverlay(e) {
+    e.stopPropagation();
+  }
+
   return (
-    <div className={`popup popup_open-image ${isOpen && "popup_opened"}`}>
-      <figure className="popup__figure">
+    <div className={`popup popup_open-image ${isOpen && "popup_opened"}`} onClick={onClose}>
+      <figure className="popup__figure" onClick={handleClickOverlay}>
         <img 
         src={card ? card.link : '#'} 
         className="popup__image" 

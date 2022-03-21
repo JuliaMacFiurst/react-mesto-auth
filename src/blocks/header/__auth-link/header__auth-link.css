@@ -1,0 +1,9 @@
+.header__auth-link {
+  display: block;
+  margin-left: auto;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  line-height: 22px;
+  text-decoration: none;
+  color: #ffffff;
+}

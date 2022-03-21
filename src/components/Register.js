@@ -1,7 +1,7 @@
 import AuthPage from "./AuthPage";
 import React, { useState } from "react";
 
-export default function Register(onRegister) {
+export default function Register({ onRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
