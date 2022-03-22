@@ -6,3 +6,10 @@
     display: flex;
     align-items: center;
 }
+
+@media screen and (max-width: 550px) {
+    .header {
+      flex-direction: column-reverse;
+      padding: 0;
+    }
+  }

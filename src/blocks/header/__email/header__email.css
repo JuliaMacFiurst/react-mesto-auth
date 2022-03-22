@@ -4,6 +4,13 @@
   font-size: 18px;
   line-height: 22px;
   font-family: "Inter", Arial, Helvetica, sans-serif;
-  margin: 0 24px 0 auto;
   color: #FFFFFF;
+  margin-right: 24px;
+}
+
+@media screen and (max-width: 550px) {
+  .header__email {
+    margin: 0 0 15px 0;
+    align-self: center;
+  }
 }
