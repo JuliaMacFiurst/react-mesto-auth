@@ -62,4 +62,4 @@
 
 26. Проверка токенов
  
-Ссылка на проект [ТУТ](https://juliamacfiurst.github.io/mesto-react/)
+Ссылка на проект [ТУТ](https://juliamacfiurst.github.io/react-mesto-auth)
