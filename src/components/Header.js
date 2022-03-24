@@ -12,14 +12,14 @@ export default function Header(props) {
         <img className="header__logo" src={mesto_logo} alt="логотип Место" />
       </Link>
       {loggedIn ? (
-        <React.Fragment>
+        <>
           <div className="header__auth">
             <p className="header__email">{email}</p>
             <button className="header__logout" onClick={onSignOut}>
               Выйти
             </button>
           </div>
-        </React.Fragment>
+        </>
       ) : (
         <Link
           className="header__auth-link"

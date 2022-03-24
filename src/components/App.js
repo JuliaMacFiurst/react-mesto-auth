@@ -79,26 +79,17 @@ export default function App() {
   }
 
   useEffect(() => {
-    SetIsLoading(true);
-    api
-      .getUserInfo()
-      .then((data) => {
-        setCurrentUser(data);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => SetIsLoading(false));
-  }, []);
-
-  useEffect(() => {
-    SetIsLoading(true);
-    api
-      .getInitialCards()
-      .then((data) => {
-        setCards(data);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => SetIsLoading(false));
-  }, []);
+    if (loggedIn) {
+      SetIsLoading(true);
+      Promise.all([ api.getInitialCards(), api.getUserInfo() ])
+          .then(([ places, userInfo ]) => {
+            setCards(places);
+            setCurrentUser(userInfo);
+          })
+          .catch((err) => console.log(err))
+          .finally(() => SetIsLoading(false));
+    }
+  }, [ loggedIn ]);
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
@@ -196,8 +187,11 @@ export default function App() {
             setLoggedIn(true)
             history.push('/')
           })
-      })
-      .catch((err) => console.log(err))
+          .catch((err) => {
+            setLoggedIn(false);
+            console.log(err);
+          })
+    })
   }
 
   function onSignOut() {
