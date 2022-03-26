@@ -1,15 +1,12 @@
 import React from 'react';
 import mesto_logo from "../images/mesto_logo.svg";
 
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 function Header({ loggedIn, email, onSignOut }) {
 
-  const { pathname } = useLocation();
+  const location = useLocation();
   const [navBarIsOpen, setNavBarIsOpen] = React.useState(false);
-
-  const textBar = pathname === `${"/sign-in"}` ? "Войти" : "Регистрация";
-  const linkRoute = `${pathname === "/sign-in" ? "/sign-up" : "/sign-in"}`;
 
 
   function handleToggleMenu() {
@@ -26,7 +23,7 @@ function Header({ loggedIn, email, onSignOut }) {
       {loggedIn &&
         (
           <div
-            className={navBarIsOpen ? 'nav-bar__container nav-bar__container_opened' : 'nav-bar__container'}
+            className={navBarIsOpen ? 'header__container header__container_opened' : 'header__container'}
           >
             <address
               className="header__email"
@@ -44,13 +41,13 @@ function Header({ loggedIn, email, onSignOut }) {
         )
       }
       <div
-        className="header__container"
+        className="header__main-container"
       >
         <img className="header__logo" src={mesto_logo} alt="логотип Место" />
         {loggedIn &&
           (
             <button
-              className={navBarIsOpen ? 'nav-bar__button nav-bar__button_opened' : 'nav-bar__button'}
+              className={navBarIsOpen ? 'header__nav-bar-button header__nav-bar-button_opened' : 'header__nav-bar-button'}
               type="button"
               aria-label="меню"
               onClick={handleToggleMenu}
@@ -59,20 +56,26 @@ function Header({ loggedIn, email, onSignOut }) {
         }
         {!loggedIn &&
           (<nav>
-           {loggedIn ? (
-        <>
-          <h2 className="header__email">{email}</h2>
-          <Link to="" onClick={onSignOut} className="header__logout">
-            Выйти
-          </Link>
-        </>
-      ) : (
-        <>
-          <Link to={linkRoute} className="header__auth-link">
-            {textBar}
-          </Link>
-        </>
-      )}
+            {location.pathname === '/sign-in' &&
+              (
+                <NavLink
+                  className="header__auth-link"
+                  to="/sign-up"
+                >
+                  Войти
+                </NavLink>
+              )
+            }
+            {location.pathname === '/sign-up' &&
+              (
+                <NavLink
+                  className="header__auth-link"
+                  to="/sign-in"
+                >
+                  Регистрация
+                </NavLink>
+              )
+            }
           </nav>
         )
         }
@@ -83,21 +86,3 @@ function Header({ loggedIn, email, onSignOut }) {
 }
 
 export default Header;
-
-
-
-// import mesto_logo from "../images/mesto_logo.svg";
-// import React from "react";
-// import { Link } from "react-router-dom"; 
-
-// export default function Header({ loggedIn, children}) {
-  
-//   return (
-//     <header className={loggedIn ? 'header header_column-reverse' : 'header'}>
-//       <Link to="/">
-//         <img className="header__logo" src={mesto_logo} alt="логотип Место" />
-//       </Link>
-//       {children}
-//     </header>
-//   );
-// }

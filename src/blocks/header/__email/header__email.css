@@ -10,7 +10,7 @@
 
 @media screen and (max-width: 550px) {
   .header__email {
-    margin: 0 0 15px 0;
-    align-self: center;
+    margin-right: 0;
+    margin-bottom: 18px;
   }
 }
