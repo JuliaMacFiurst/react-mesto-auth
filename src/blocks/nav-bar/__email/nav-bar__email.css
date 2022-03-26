@@ -1,0 +1,15 @@
+.nav-bar__email {
+  font-family: "Inter", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.22;
+  color: #ffffff;
+  padding: 9px 0;
+}
+
+@media screen and (min-width: 550px) {
+  .nav-bar__email {
+    margin-right: 24px;
+  }
+}

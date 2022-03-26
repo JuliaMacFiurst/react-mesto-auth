@@ -6,4 +6,12 @@
   line-height: 22px;
   text-decoration: none;
   color: #ffffff;
+  padding-right: 30px;
+  align-self: center;
+}
+
+@media screen and (max-width: 550px) {
+  .header__auth-link {
+    align-self: center;
+  }
 }

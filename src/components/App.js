@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import Header from "./Header.js";
 import Main from "./Main.js";
@@ -32,9 +32,10 @@ export default function App() {
   const [isLoading, SetIsLoading] = useState(false);
 
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-  const [message, setMessage] = useState({ imgPath: '', text: '' });
+  const [message, setMessage] = useState({ imgPath: "", text: "" });
   const [loggedIn, setLoggedIn] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
+
   const history = useHistory();
 
   function handleEditAvatarClick() {
@@ -81,15 +82,15 @@ export default function App() {
   useEffect(() => {
     if (loggedIn) {
       SetIsLoading(true);
-      Promise.all([ api.getInitialCards(), api.getUserInfo() ])
-          .then(([ places, userInfo ]) => {
-            setCards(places);
-            setCurrentUser(userInfo);
-          })
-          .catch((err) => console.log(err))
-          .finally(() => SetIsLoading(false));
+      Promise.all([api.getInitialCards(), api.getUserInfo()])
+        .then(([places, userInfo]) => {
+          setCards(places);
+          setCurrentUser(userInfo);
+        })
+        .catch((err) => console.log(err))
+        .finally(() => SetIsLoading(false));
     }
-  }, [ loggedIn ]);
+  }, [loggedIn]);
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
@@ -145,68 +146,76 @@ export default function App() {
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
     setIsConfirmDeletePopupOpen(false);
-    setIsInfoTooltipOpen(false)
+    setIsInfoTooltipOpen(false);
   }
 
   useEffect(() => {
-    tokenCheck()
-  }, [])
+    tokenCheck();
+  }, []);
 
   function tokenCheck() {
-    const jwt = localStorage.getItem('jwt')
+    const jwt = localStorage.getItem("jwt");
 
-    if(jwt) {
-      auth.getContent(jwt)
+    if (jwt) {
+      auth
+        .getContent(jwt)
         .then((res) => {
-          if(res) {
-            setLoggedIn(true)
-            setEmail(res.data.email)
-            history.push('/')
+          if (res) {
+            setLoggedIn(true);
+            setEmail(res.data.email);
+            history.push("/");
           }
         })
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
     }
   }
 
   function handleRegistration(password, email) {
-    auth.register(password, email)
+    auth
+      .register(password, email)
       .then((result) => {
-        setEmail(result.data.email)
-        setMessage({ imgPath: success, text: 'Вы успешно зарегистрировались!' })
+        setEmail(result.data.email);
+        setMessage({
+          imgPath: success,
+          text: "Вы успешно зарегистрировались!",
+        });
       })
-      .catch(() => setMessage({ imgPath: unSuccess, text: 'Что-то пошло не так! Попробуйте ещё раз.' }))
-      .finally(() => setIsInfoTooltipOpen(true))
+      .catch(() =>
+        setMessage({
+          imgPath: unSuccess,
+          text: "Что-то пошло не так! Попробуйте ещё раз.",
+        })
+      )
+      .finally(() => setIsInfoTooltipOpen(true));
   }
 
   function handleLogin(password, email) {
     auth.login(password, email)
       .then((token) => {
-        auth.getContent(token)
+        auth .getContent(token)
           .then((res) => {
-            setEmail(res.data.email)
-            setLoggedIn(true)
-            history.push('/')
+            setEmail(res.data.email);
+            setLoggedIn(true);
+            history.push("/");
           })
           .catch((err) => {
             setLoggedIn(false);
             console.log(err);
           })
-    })
+      })
+      .catch((err) => console.log(err)) 
   }
-
+  
   function onSignOut() {
-    localStorage.removeItem('jwt')
-    setLoggedIn(false)
+    localStorage.removeItem("jwt");
+    setLoggedIn(false);
   }
 
   return (
     <div className="page">
       <div className="page__container">
         <CurrentUserContext.Provider value={currentUser}>
-          <Header 
-          loggedIn={loggedIn}
-          email={email}
-          onSignOut={onSignOut}/>
+          <Header loggedIn={loggedIn}email={email} onSignOut={onSignOut} />
           <Switch>
             <ProtectedRoute
               exact
@@ -223,17 +232,14 @@ export default function App() {
               isLoading={isLoading}
             />
             <Route path="/sign-in">
-              <Register 
-              isOpen={isEditProfilePopupOpen}
-              onRegister={handleRegistration}
-              isInfoTooltipOpen={isInfoTooltipOpen}
+              <Register
+                isOpen={isEditProfilePopupOpen}
+                onRegister={handleRegistration}
+                isInfoTooltipOpen={isInfoTooltipOpen}
               />
             </Route>
             <Route path="/sign-up">
-              <Login 
-              isOpen={isEditProfilePopupOpen}
-              onAuth={handleLogin}
-              />
+              <Login isOpen={isEditProfilePopupOpen} onAuth={handleLogin} />
             </Route>
           </Switch>
           <Footer />

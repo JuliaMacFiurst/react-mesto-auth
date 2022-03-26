@@ -1,0 +1,18 @@
+.nav-bar__container {
+    display: none;
+    flex-direction:row;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 0;
+    align-self: center;
+    margin-right: 30px;
+}
+
+@media screen and (max-width: 550px) {
+    .nav-bar__container {
+        flex-direction: column;
+        align-self: center;
+        margin: 0 auto;
+        
+    }
+}

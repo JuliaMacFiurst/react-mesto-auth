@@ -6,15 +6,15 @@
 
 @media screen and (max-width: 920px) {
   .header__logo {
-    padding-left: 27px;
-    margin-bottom: 31px;
+    padding-left: 30px;
   }
 }
 
 @media screen and (max-width: 550px) {
   .header__logo {
+    align-self: end;
     width: 104px;
     height: 24px;
-    margin-top: 27px;
+    padding-top: 27px;
   }
 }

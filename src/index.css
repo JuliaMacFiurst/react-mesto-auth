@@ -59,3 +59,14 @@
 @import url(./blocks/auth-page/__title/auth-page__title.css);
 @import url(./blocks/popup/__tooltip/popup__tooltip.css);
 @import url(./blocks/popup/__title/__type/popup__title_type_tooltip.css);
+@import url(./blocks/nav-bar/__container/nav-bar__container.css);
+@import url(./blocks/nav-bar/__link/nav-bar__link.css);
+@import url(./blocks/nav-bar/__link/_sing-out/nav-bar__link_sign-out.css);
+@import url(./blocks/nav-bar/__link/_sign-in/nav-bar__link_sign-in.css);
+@import url(./blocks/header/_column-reverse/header_column-reverse.css);
+@import url(./blocks/nav-bar/__container/nav-bar__container.css);
+@import url(./blocks/nav-bar/__container/_opened/nav-bar__container_opened.css);
+@import url(./blocks/nav-bar/__email/nav-bar__email.css);
+@import url(./blocks/header/__container/header__container.css);
+@import url(./blocks/nav-bar/__button/nav-bar__button.css);
+@import url(./blocks/nav-bar/__button/_opened/nav-bar__button_opened.css);
